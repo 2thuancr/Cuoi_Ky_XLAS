@@ -6,7 +6,7 @@ import joblib
 import os
 
 def show():
-    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>🖐️ Nhận diện ngôn ngữ ký hiệu + ghép câu</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>🖐️ NHẬN DIỆN NGÔN NGỮ KÝ HIỆU + GHÉP CÂU</div>", unsafe_allow_html=True)
     st.write("Sử dụng webcam để nhận diện ký hiệu tay và ghép thành câu.")
 
     # Load mô hình và encoder

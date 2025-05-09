@@ -6,7 +6,7 @@ import argparse
 import joblib
 
 def show():
-    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>Nhận diện khuôn mặt</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>NHẬN DIỆN KHUÔN MẶT</div>", unsafe_allow_html=True)
     run = st.checkbox('Bắt đầu')
 
     video_source = st.selectbox(

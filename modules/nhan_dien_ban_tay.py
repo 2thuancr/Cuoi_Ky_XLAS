@@ -18,7 +18,7 @@ def show():
                         min_detection_confidence=0.5,
                         min_tracking_confidence=0.5)
 
-    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>🤚 Nhận diện cử chỉ tay bằng MediaPipe + ML</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>🤚 NHẬN DIỆN BÀN TAY BẰNG MEDIAPIPE + ML</div>", unsafe_allow_html=True)
     st.write("Sử dụng webcam để nhận diện cử chỉ tay theo thời gian thực.")
 
     run = st.checkbox('Bắt đầu nhận diện')

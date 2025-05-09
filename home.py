@@ -19,15 +19,15 @@ with st.sidebar:
     logo = "https://tracuuxettuyen.hcmute.edu.vn/assets/img/logo/ute_logo.png"
     st.image(logo, width=250)
 st.sidebar.title("Menu")
-st.sidebar.button("Giới thiệu", on_click=set_selection, args=("GioiThieu",))
-st.sidebar.button("Chương 3", on_click=set_selection, args=("Chuong3",))
-st.sidebar.button("Chương 4", on_click=set_selection, args=("Chuong4",))
-st.sidebar.button("Chương 9", on_click=set_selection, args=("Chuong9",))
-st.sidebar.button("Nhận diện khuôn mặt", on_click=set_selection, args=("NhanDienKhuonMat",))
-st.sidebar.button("Nhận diện trái cây", on_click=set_selection, args=("TraiCay",))
-st.sidebar.button("Nhận diện bàn tay", on_click=set_selection, args=("BanTay",))
-st.sidebar.button("Nhận diện ngôn ngữ kí hiệu, ghép câu", on_click=set_selection, args=("GhepCauKiHieu",))
-st.sidebar.button("Lane Detection", on_click=set_selection, args=("LaneDetection",))
+st.sidebar.button("GIỚI THIỆU", on_click=set_selection, args=("GioiThieu",))
+st.sidebar.button("CHƯƠNG 3", on_click=set_selection, args=("Chuong3",))
+st.sidebar.button("CHƯƠNG 4", on_click=set_selection, args=("Chuong4",))
+st.sidebar.button("CHƯƠNG 9", on_click=set_selection, args=("Chuong9",))
+st.sidebar.button("NHẬN DIỆN KHUÔN MẶT", on_click=set_selection, args=("NhanDienKhuonMat",))
+st.sidebar.button("NHẬN DIỆN TRÁI CÂY", on_click=set_selection, args=("TraiCay",))
+st.sidebar.button("NHẬN DIỆN BÀN TAY", on_click=set_selection, args=("BanTay",))
+st.sidebar.button("NHẬN DIỆN KÝ HIỆU NGÔN NGỮ, NGÓN TAY", on_click=set_selection, args=("GhepCauKiHieu",))
+st.sidebar.button("LANE DETECTION", on_click=set_selection, args=("LaneDetection",))
 
 # Hiển thị nội dung tương ứng
 selected = st.session_state.selected
@@ -62,7 +62,7 @@ html, body, [data-testid="stAppViewContainer"] {
     background-image: linear-gradient(
         rgba(0, 0, 0, 0.4), 
         rgba(0, 0, 0, 0.4)
-    ), url("https://images.unsplash.com/photo-1465101162946-4377e57745c3?q=80&w=2078&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    ), url("https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/471306834_1312910153458292_2571871794578179435_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEQNuxU4BSL5zbmuTz-nePFkRcS5UjhLz2RFxLlSOEvPSHeiK1bsd0TUiDK4tLbMWXoUkSNOQS3lTG7D6m9eeLn&_nc_ohc=XfRkOoWeDocQ7kNvwHbHgOU&_nc_oc=Adl-IQJb4v5BhBdrHhClzSQtYTwqju1Pv9LyqqBvDIBH0_qMNMIzAnGSkf72IQMRELk&_nc_zt=23&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=NDPGMwpY50TH_vJSMW38eg&oh=00_AfLfB84pWJhnTp-Yq0v8tpfME-Oxn2VuXIHZNHs5tG_6lA&oe=68238A31");
     background-size: cover;
     background-position: center;
     color: white;
@@ -78,7 +78,7 @@ h1, h2, h3 {
 
 /* Style cho nút secondary */
 button[data-testid="stBaseButton-secondary"] {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(50, 0, 100, 0.7));
+    background: linear-gradient(to right, rgba(0, 80, 200, 0.7), rgba(0, 180, 200, 0.7)); /* Màu xanh */
     color: white;
     border: 1px solid white;
     padding: 10px 30px;
@@ -89,7 +89,7 @@ button[data-testid="stBaseButton-secondary"] {
 }
 
 button[data-testid="stBaseButton-secondary"]:hover {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(50, 0, 100, 0.9));
+    background: linear-gradient(to right, rgba(0, 80, 200, 0.9), rgba(0, 180, 200, 0.9)); /* Màu xanh đậm khi hover */
     transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer;

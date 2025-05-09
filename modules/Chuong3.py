@@ -21,7 +21,7 @@ chuong3_options = [
     "Sharp"]
 
 def show():     
-    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>Chương 3</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;color = '>CHƯƠNG 3</div>", unsafe_allow_html=True)
 
     # --- Sidebar ---
     selected_option = st.selectbox("Chọn chức năng:", chuong3_options)

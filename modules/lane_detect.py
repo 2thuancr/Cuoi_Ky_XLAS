@@ -6,7 +6,7 @@ import numpy as np
 
 
 def show():
-    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>Lane Detection</div><br><br>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>LANE DETECTION</div><br><br>", unsafe_allow_html=True)
 
     # Trạng thái session
     if 'running' not in st.session_state:
