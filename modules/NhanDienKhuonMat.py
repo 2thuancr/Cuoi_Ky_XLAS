@@ -131,18 +131,28 @@ colors = [(0, 0, 255), (255, 0, 0), (0, 255, 0), (0, 255, 255), (255, 0, 255)]
 def visualize(input, faces, fps, thickness=2, value=None, scores=None):
     if faces[1] is not None:
         for idx, face in enumerate(faces[1]):
-            #print('Face {}, top-left coordinates: ({:.0f}, {:.0f}), box width: {:.0f}, box height {:.0f}, score: {:.2f}'.format(idx, face[0], face[1], face[2], face[3], face[-1]))
-            if scores[idx] > 0.6:
-                if value and idx < len(value):
-                    color = colors[value[idx]]
-                else:
-                    color = (255, 255, 255)
+            coords = face[:-1].astype(np.int32)
+            x, y, w, h = coords[0], coords[1], coords[2], coords[3]
 
-                coords = face[:-1].astype(np.int32)
-                cv2.rectangle(input, (coords[0], coords[1]), (coords[0]+coords[2], coords[1]+coords[3]), color, thickness)
-                cv2.circle(input, (coords[4], coords[5]), 2, (255, 0, 0), thickness)
-                cv2.circle(input, (coords[6], coords[7]), 2, (0, 0, 255), thickness)
-                cv2.circle(input, (coords[8], coords[9]), 2, (0, 255, 0), thickness)
-                cv2.circle(input, (coords[10], coords[11]), 2, (255, 0, 255), thickness)
-                cv2.circle(input, (coords[12], coords[13]), 2, (0, 255, 255), thickness)
+            # Mặc định label và màu
+            label = "Unknown"
+            color = (200, 200, 200)
+
+            # Nếu có đủ thông tin và confidence cao thì cập nhật label + màu
+            if value and scores and idx < len(value) and scores[idx] > 0.6:
+                label = mydict[value[idx]]
+                color = colors[value[idx]]
+
+            # Hiển thị label phía trên khung
+            cv2.putText(input, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+            cv2.rectangle(input, (x, y), (x + w, y + h), color, thickness)
+
+            # Vẽ landmark
+            cv2.circle(input, (coords[4], coords[5]), 2, (255, 0, 0), thickness)
+            cv2.circle(input, (coords[6], coords[7]), 2, (0, 0, 255), thickness)
+            cv2.circle(input, (coords[8], coords[9]), 2, (0, 255, 0), thickness)
+            cv2.circle(input, (coords[10], coords[11]), 2, (255, 0, 255), thickness)
+            cv2.circle(input, (coords[12], coords[13]), 2, (0, 255, 255), thickness)
+
+    # Hiển thị FPS
     cv2.putText(input, 'FPS: {:.2f}'.format(fps), (1, 16), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
