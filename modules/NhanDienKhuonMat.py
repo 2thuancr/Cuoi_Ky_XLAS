@@ -84,10 +84,10 @@ def show():
 
                 score = svc.decision_function(face_feature)
                 best_idx = np.argmax(score)
-                confidence = score[0][best_idx]
-                scores.append(confidence)
-                
-
+                # Check if the prediction index is within the range of mydict
+                if 0 <= test_predict[0] < len(mydict):
+                    confidence = float(score) if np.isscalar(score) else score[best_idx]
+                    scores.append(confidence)
 
                 cv2.putText(frame,result,(1,50 + 20*x),cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[test_predict[0]], 2)
         
@@ -124,8 +124,8 @@ parser.add_argument('--top_k', type=int, default=5000, help='Keep top_k bounding
 parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
 args = parser.parse_args()
 
-svc = joblib.load('./model/svc.pkl')
-mydict = ['Duy','Hieu','Lam','Luan', 'PhamHuong']
+svc = joblib.load('./model/svc_face.pkl')
+mydict = ['Thuan', 'Tien']
 colors = [(0, 0, 255), (255, 0, 0), (0, 255, 0), (0, 255, 255), (255, 0, 255)]
 
 def visualize(input, faces, fps, thickness=2, value=None, scores=None):
