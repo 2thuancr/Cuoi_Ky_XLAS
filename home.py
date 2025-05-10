@@ -14,7 +14,7 @@ with st.sidebar:
     logo = "https://itute.github.io/img/logo/logo.png"
     st.image(logo, width=128)
 
-    st.markdown("## Menu")
+    st.markdown("### 22110006")
     if st.button("GIỚI THIỆU"):
         st.query_params.clear()
         st.query_params.update({"menu": "GioiThieu"})
@@ -79,7 +79,6 @@ html, body, [data-testid="stAppViewContainer"] {
     ), url("https://itute.github.io/img/hcmute_bg.jpg");
     background-size: cover;
     background-position: center;
-    color: white;
 }
 
 [data-testid="stHeader"] {
@@ -90,20 +89,10 @@ h1, h2, h3 {
     color: #f2f2f2;
 }
 
-/* Style cho sidebar */
-.stSidebar {
-    width: 100% !important;
-}
-
-.stSidebar .block-container {
-    padding: 0;
-}
-
 /* Style cho nút trong sidebar */
 button[data-testid="stBaseButton"] {
     width: 100% !important;
     background: linear-gradient(to right, rgba(0, 80, 200, 0.7), rgba(0, 180, 200, 0.7)); /* Màu xanh */
-    color: white;
     border: 1px solid white;
     padding: 10px 0;
     border-radius: 10px;
@@ -118,7 +107,7 @@ button[data-testid="stBaseButton"]:hover {
     cursor: pointer;
 }
 
-button[data-testid="baseButton-secondary"] {
+button[data-testid="stBaseButton-secondary"] {
     width: 100% !important;
 }
 
@@ -128,6 +117,16 @@ div[data-testid="stImage"] {
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+/* Style cho select */
+div[data-testid="stSelectbox"], div[data-testid="stMultiSelect"] {
+    background: linear-gradient(to right, rgb(255 255 255 / 70%), rgba(0, 180, 200, 0.7));
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
 }
 
 </style>
