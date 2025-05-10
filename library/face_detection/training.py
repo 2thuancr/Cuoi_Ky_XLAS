@@ -11,7 +11,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
 from sklearn.manifold import TSNE
 
-
 class IdentityMetadata():
     def __init__(self, base, name, file):
         # dataset base directory
@@ -57,47 +56,55 @@ def show_pair(idx1, idx2):
     plt.subplot(122)
     plt.imshow(load_image(metadata[idx2].image_path()))
 
-
-detector = cv2.FaceDetectorYN.create(
-    "../../model/face_detection_yunet_2023mar.onnx",
-    "",
-    (320, 320),
-    0.9,
-    0.3,
-    5000
-)
-detector.setInputSize((320, 320))
-
-recognizer = cv2.FaceRecognizerSF.create("../../model/face_recognition_sface_2021dec.onnx", "")
-
-metadata = load_metadata('images')
+metadata = load_metadata('images/face_detection')
 
 embedded = np.zeros((metadata.shape[0], 128))
 
-for i, m in enumerate(metadata):
-    print(m.image_path())
-    img = cv2.imread(m.image_path(), cv2.IMREAD_COLOR)
-    face_feature = recognizer.feature(img)
-    embedded[i] = face_feature
 
-targets = np.array([m.name for m in metadata])
+def training_model():
 
-encoder = LabelEncoder()
-encoder.fit(targets)
+    detector = cv2.FaceDetectorYN.create(
+        "model/face_detection_yunet_2023mar.onnx",
+        "",
+        (320, 320),
+        0.9,
+        0.3,
+        5000
+    )
+    detector.setInputSize((320, 320))
 
-# Numerical encoding of identities
-y = encoder.transform(targets)
+    recognizer = cv2.FaceRecognizerSF.create("model/face_recognition_sface_2021dec.onnx", "")
 
-train_idx = np.arange(metadata.shape[0]) % 5 != 0
-test_idx = np.arange(metadata.shape[0]) % 5 == 0
-X_train = embedded[train_idx]
-X_test = embedded[test_idx]
-y_train = y[train_idx]
-y_test = y[test_idx]
 
-svc = LinearSVC()
-svc.fit(X_train, y_train)
-acc_svc = accuracy_score(y_test, svc.predict(X_test))
-print('SVM accuracy: %.6f' % acc_svc)
-joblib.dump(svc,'../model/svc.pkl')
 
+    for i, m in enumerate(metadata):
+        print(m.image_path())
+        img = cv2.imread(m.image_path(), cv2.IMREAD_COLOR)
+        face_feature = recognizer.feature(img)
+        embedded[i] = face_feature
+
+    targets = np.array([m.name for m in metadata])
+
+    encoder = LabelEncoder()
+    encoder.fit(targets)
+
+    # Numerical encoding of identities
+    y = encoder.transform(targets)
+
+    train_idx = np.arange(metadata.shape[0]) % 5 != 0
+    test_idx = np.arange(metadata.shape[0]) % 5 == 0
+    X_train = embedded[train_idx]
+    X_test = embedded[test_idx]
+    y_train = y[train_idx]
+    y_test = y[test_idx]
+
+    svc = LinearSVC()
+    svc.fit(X_train, y_train)
+    acc_svc = accuracy_score(y_test, svc.predict(X_test))
+    print('SVM accuracy: %.6f' % acc_svc)
+    joblib.dump(svc,'model/svc_face_detection.pkl')
+
+
+if __name__ == "__main__":
+    training_model()
+    
