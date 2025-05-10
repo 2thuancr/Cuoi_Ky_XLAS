@@ -120,7 +120,9 @@ div[data-testid="stImage"] {
 }
 
 /* Style cho select */
-div[data-testid="stSelectbox"], div[data-testid="stMultiSelect"] {
+div[data-testid="stSelectbox"], 
+div[data-testid="stMultiSelect"],
+div[data-testid="stCheckbox"] {
     background: linear-gradient(to right, rgb(255 255 255 / 70%), rgba(0, 180, 200, 0.7));
     border: 1px solid white;
     padding: 10px;
@@ -129,6 +131,10 @@ div[data-testid="stSelectbox"], div[data-testid="stMultiSelect"] {
     color: #fff;
 }
 
+section[data-testid="stMain"] {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 20px;
+}
 </style>
 """
 st.markdown(page_bg, unsafe_allow_html=True)

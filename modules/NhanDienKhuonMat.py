@@ -4,10 +4,12 @@ import numpy as np
 import time
 import argparse
 import joblib
+from library.face_detection.get_face import get_face_recognition_model
 
 def show():
-    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>NHẬN DIỆN KHUÔN MẶT</div>", unsafe_allow_html=True)
     
+    st.title("Nhận diện khuôn mặt")
+
     # Thêm 2 button: Get Faces và Train, khi nhấn vào sẽ gọi hàm get_faces và train
     col1, col2 = st.columns(2)
     with col1:
@@ -33,8 +35,8 @@ def show():
         st.session_state["video_file"] = None
         st.session_state["run"] = False
 
-    # Checkbox để bắt đầu chạy video
-    run = st.checkbox('Bắt đầu')
+    # Tạo checkbox để bật/tắt nhận diện khuôn mặt
+    run = st.checkbox("Nhận diện khuôn mặt", value=st.session_state.get("run", False))
 
     # Lựa chọn nguồn video (webcam hoặc video file)
     video_source = st.selectbox(
@@ -50,9 +52,17 @@ def show():
     # Hiển thị khung hình video
     FRAME_WINDOW = st.image([])
 
+    # Nếu đã nhấn nút Get Faces, cập nhật trạng thái
+    if st.session_state.get("get_faces", False):
+        get_face_recognition_model()  # Gọi hàm nhận diện khuôn mặt
+
+    # Kiểm tra xem người dùng có nhấn nút "Huấn luyện"
+    if st.session_state.get("train", False):
+        train_model()  # Gọi hàm huấn luyện mô hình khi "train" = True
+
     # Biến cap sẽ là nguồn video được mở
     cap = None
-    if run:
+    if run:  # Nếu checkbox được bật
         if video_source == "webcam":
             cap = cv2.VideoCapture(0)
         elif video_source == "video" and video_file is not None:
@@ -82,10 +92,6 @@ def show():
         frameHeight = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         detector.setInputSize([frameWidth, frameHeight])
 
-    # Kiểm tra xem người dùng có nhấn nút "Huấn luyện"
-    if st.session_state.get("train", False):
-        train_model()  # Gọi hàm huấn luyện mô hình khi "train" = True
-
     while run:
         ret, frame = cap.read()
         if not ret:
@@ -112,6 +118,7 @@ def show():
         scores = []
         if faces[1] is not None:
             for x in range(len(faces[1])):
+
                 face_align = recognizer.alignCrop(frame, faces[1][x])
                 face_feature = recognizer.feature(face_align)
                 test_predict = svc.predict(face_feature)
@@ -136,6 +143,7 @@ def show():
         time.sleep(0.03)  # Giới hạn tốc độ khung hình
     if cap:
         cap.release()
+
 
 
 def train_model():
