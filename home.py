@@ -1,58 +1,72 @@
 import streamlit as st
-from modules import GioiThieu, Chuong3, Chuong4, Chuong9, NhanDienKhuonMat, trai_cay, nhan_dien_ban_tay, nhan_dien_chu_ki_hieu, lane_detect
-import streamlit as st
-import os
+from modules import (
+    GioiThieu, Chuong3, Chuong4, Chuong9,
+    NhanDienKhuonMat, trai_cay,
+    nhan_dien_ban_tay, nhan_dien_chu_ki_hieu,
+    lane_detect
+)
 
+# Cấu hình trang
+st.set_page_config(page_title="Ứng dụng xử lý ảnh", layout="wide")
 
-st.set_page_config(page_title="Ứng dụng xử lý ảnh")
+# --- Sidebar ---
+with st.sidebar:
+    logo = "https://itute.github.io/img/logo/logo.png"
+    st.image(logo, width=128)
 
-# Khởi tạo trạng thái nếu chưa có
-if 'selected' not in st.session_state:
-    st.session_state.selected = "GioiThieu"
+    st.markdown("## Menu")
+    if st.button("GIỚI THIỆU"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "GioiThieu"})
+    if st.button("CHƯƠNG 3"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "Chuong3"})
+    if st.button("CHƯƠNG 4"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "Chuong4"})
+    if st.button("CHƯƠNG 9"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "Chuong9"})
+    if st.button("NHẬN DIỆN KHUÔN MẶT"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "NhanDienKhuonMat"})
+    if st.button("NHẬN DIỆN TRÁI CÂY"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "TraiCay"})
+    if st.button("NHẬN DIỆN BÀN TAY"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "BanTay"})
+    if st.button("NHẬN DIỆN NGÔN NGỮ KÝ HIỆU"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "GhepCauKiHieu"})
+    if st.button("LANE DETECTION"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "LaneDetection"})
 
-# Hàm xử lý sự kiện khi nhấn nút
-def set_selection(choice):
-    st.session_state.selected = choice
+# --- Routing ---
 
-# Sidebar với các nút riêng biệt
-with st.sidebar:  
-    logo = "https://tracuuxettuyen.hcmute.edu.vn/assets/img/logo/ute_logo.png"
-    st.image(logo, width=250)
-st.sidebar.title("Menu")
-st.sidebar.button("GIỚI THIỆU", on_click=set_selection, args=("GioiThieu",))
-st.sidebar.button("CHƯƠNG 3", on_click=set_selection, args=("Chuong3",))
-st.sidebar.button("CHƯƠNG 4", on_click=set_selection, args=("Chuong4",))
-st.sidebar.button("CHƯƠNG 9", on_click=set_selection, args=("Chuong9",))
-st.sidebar.button("NHẬN DIỆN KHUÔN MẶT", on_click=set_selection, args=("NhanDienKhuonMat",))
-st.sidebar.button("NHẬN DIỆN TRÁI CÂY", on_click=set_selection, args=("TraiCay",))
-st.sidebar.button("NHẬN DIỆN BÀN TAY", on_click=set_selection, args=("BanTay",))
-st.sidebar.button("NHẬN DIỆN KÝ HIỆU NGÔN NGỮ, NGÓN TAY", on_click=set_selection, args=("GhepCauKiHieu",))
-st.sidebar.button("LANE DETECTION", on_click=set_selection, args=("LaneDetection",))
+pages = {
+    "GioiThieu": GioiThieu.show,
+    "Chuong3": Chuong3.show,
+    "Chuong4": Chuong4.show,
+    "Chuong9": Chuong9.show,
+    "NhanDienKhuonMat": NhanDienKhuonMat.show,
+    "TraiCay": trai_cay.show,
+    "BanTay": nhan_dien_ban_tay.show,
+    "GhepCauKiHieu": nhan_dien_chu_ki_hieu.show,
+    "LaneDetection": lane_detect.show
+}
 
-# Hiển thị nội dung tương ứng
-selected = st.session_state.selected
+# Lấy route từ URL
+menu = st.query_params.get("menu", "GioiThieu")
 
-if selected == "GioiThieu":
-    GioiThieu.show()
-elif selected == "Chuong3":
-    Chuong3.show()
-elif selected == "Chuong4":
-    Chuong4.show()
-elif selected == "Chuong9":
-    Chuong9.show()
-elif selected == "NhanDienKhuonMat":
-    NhanDienKhuonMat.show()
-elif selected == "TraiCay":
-    trai_cay.show()
-elif selected == "BanTay":
-    nhan_dien_ban_tay.show()
-elif selected == "GhepCauKiHieu":
-    nhan_dien_chu_ki_hieu.show()
-elif selected == "LaneDetection":
-    lane_detect.show()
+# Gọi hàm tương ứng nếu có
+if menu in pages:
+    pages[menu]()
+else:
+    st.error("Trang không tồn tại.")
 
-
-
+# --- Giao diện nền ---
 page_bg = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
@@ -62,7 +76,7 @@ html, body, [data-testid="stAppViewContainer"] {
     background-image: linear-gradient(
         rgba(0, 0, 0, 0.4), 
         rgba(0, 0, 0, 0.4)
-    ), url("https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/471306834_1312910153458292_2571871794578179435_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEQNuxU4BSL5zbmuTz-nePFkRcS5UjhLz2RFxLlSOEvPSHeiK1bsd0TUiDK4tLbMWXoUkSNOQS3lTG7D6m9eeLn&_nc_ohc=XfRkOoWeDocQ7kNvwHbHgOU&_nc_oc=Adl-IQJb4v5BhBdrHhClzSQtYTwqju1Pv9LyqqBvDIBH0_qMNMIzAnGSkf72IQMRELk&_nc_zt=23&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=NDPGMwpY50TH_vJSMW38eg&oh=00_AfLfB84pWJhnTp-Yq0v8tpfME-Oxn2VuXIHZNHs5tG_6lA&oe=68238A31");
+    ), url("https://itute.github.io/img/hcmute_bg.jpg");
     background-size: cover;
     background-position: center;
     color: white;
@@ -76,23 +90,44 @@ h1, h2, h3 {
     color: #f2f2f2;
 }
 
-/* Style cho nút secondary */
-button[data-testid="stBaseButton-secondary"] {
+/* Style cho sidebar */
+.stSidebar {
+    width: 100% !important;
+}
+
+.stSidebar .block-container {
+    padding: 0;
+}
+
+/* Style cho nút trong sidebar */
+button[data-testid="stBaseButton"] {
+    width: 100% !important;
     background: linear-gradient(to right, rgba(0, 80, 200, 0.7), rgba(0, 180, 200, 0.7)); /* Màu xanh */
     color: white;
     border: 1px solid white;
-    padding: 10px 30px;
+    padding: 10px 0;
     border-radius: 10px;
-    width: 260px;
     font-size: 16px;
     transition: all 0.3s ease;
 }
 
-button[data-testid="stBaseButton-secondary"]:hover {
+button[data-testid="stBaseButton"]:hover {
     background: linear-gradient(to right, rgba(0, 80, 200, 0.9), rgba(0, 180, 200, 0.9)); /* Màu xanh đậm khi hover */
     transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+}
+
+button[data-testid="baseButton-secondary"] {
+    width: 100% !important;
+}
+
+/* Style cho logo trong sidebar */
+div[data-testid="stImage"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 </style>
