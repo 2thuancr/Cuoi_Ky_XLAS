@@ -1,5 +1,5 @@
 import argparse
-
+import streamlit as st
 import numpy as np
 import cv2 as cv
 
@@ -44,7 +44,7 @@ def visualize(input, faces, fps, thickness=2):
     cv.putText(input, 'FPS: {:.2f}'.format(fps), (1, 16), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
 
-def get_face_recognition_model():
+def get_face_recognition_model(label = "22110006"):
     detector = cv.FaceDetectorYN.create(
         args.face_detection_model,
         "",
@@ -77,12 +77,13 @@ def get_face_recognition_model():
         
         key = cv.waitKey(1)
         if key == 27:
+            cv.destroyAllWindows()
             break
 
         if key == ord('s') or key == ord('S'):
             if faces[1] is not None:
                 face_align = recognizer.alignCrop(frame, faces[1][0])
-                file_name = './images/face_detection/02_Thuan/02_Thuan_%04d.bmp' % dem
+                file_name = './images/face_detection/' + label + '/' + label + '_%04d.bmp' % dem
                 cv.imwrite(file_name, face_align)
                 dem = dem + 1
         # Draw results on the input image

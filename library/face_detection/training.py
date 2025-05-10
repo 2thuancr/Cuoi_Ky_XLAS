@@ -102,7 +102,10 @@ def training_model():
     svc.fit(X_train, y_train)
     acc_svc = accuracy_score(y_test, svc.predict(X_test))
     print('SVM accuracy: %.6f' % acc_svc)
-    joblib.dump(svc,'model/svc_face_detection_2.pkl')
+    model_path = 'model/svc_face_detection.pkl'
+    if os.path.exists(model_path):
+        os.remove(model_path)
+    joblib.dump(svc, model_path)
 
 
 if __name__ == "__main__":
