@@ -2,7 +2,7 @@ import streamlit as st
 
 def show():
     html_code = """
-    <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px 0;">
+    <div style="font-family: Arial, sans-serif; text-align: center;">
         <h2 style="color: #FFFFFF; margin: 0; padding: 0;">BÁO CÁO CUỐI KỲ</h2>
         <h1 style="color: #FFFFFF; margin: 0; padding: 0;">MÔN XỬ LÝ ẢNH SỐ</h1>
     </div>
@@ -18,16 +18,16 @@ def show():
         margin-bottom: 2em;
     }
     .function-item {
-    background: linear-gradient(to right, rgba(0, 80, 200, 0.7), rgba(0, 180, 200, 0.7));
-    padding: 1em;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    height: 220px;
-    width: 220px;
+        background: linear-gradient(to right, rgba(0, 80, 200, 0.7), rgba(0, 180, 200, 0.7));
+        padding: 1em;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        height: 200px;
+        width: 200px;
     }
     .function-item:hover {
         background: linear-gradient(to right, rgba(0, 80, 200, 0.9), rgba(0, 180, 200, 0.9));
@@ -79,7 +79,13 @@ def show():
         """
         <div class="functions-grid">
             <div class="function-item">
-                <h3>Xử lý ảnh số Chương 3, 4, 9</h3>
+                <h3>Xử lý ảnh số Chương 3</h3>
+            </div>
+            <div class="function-item">
+                <h3>Xử lý ảnh số Chương 4</h3>
+            </div>
+            <div class="function-item">
+                <h3>Xử lý ảnh số Chương 9</h3>
             </div>
             <div class="function-item">
                 <h3>Nhận diện khuôn mặt</h3>
@@ -91,7 +97,7 @@ def show():
                 <h3>Nhận diện bàn tay</h3>
             </div>
             <div class="function-item">
-                <h3>Nhận diện ngôn ngữ kí hiệu, ghép câu</h3>
+                <h3>Nhận diện ngôn ngữ kí hiệu</h3>
             </div>
             <div class="function-item">
                 <h3>Lane detection</h3>
