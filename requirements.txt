@@ -2,10 +2,10 @@
 opencv-python==4.9.0.80
 
 # YOLOv8 và các tiện ích AI từ Ultralytics
-ultralytics==8.1.26
+ultralytics==8.3.129
 
 # Nhận diện bàn tay, khuôn mặt, pose, v.v.
-mediapipe==0.10.11
+mediapipe==0.10.21
 
 # Các thư viện hỗ trợ khác (nếu cần mở rộng)
 numpy==1.24.4
