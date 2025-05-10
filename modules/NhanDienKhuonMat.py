@@ -175,7 +175,7 @@ parser.add_argument('--top_k', type=int, default=5000, help='Keep top_k bounding
 parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true to save results. This flag is invalid when using camera.')
 args = parser.parse_args()
 
-svc = joblib.load('./model/svc_face.pkl')
+svc = joblib.load('./model/svc_face_detection.pkl')
 mydict = ['Thuan', 'Tien']
 colors = [(0, 0, 255), (255, 0, 0), (0, 255, 0), (0, 255, 255), (255, 0, 255)]
 
@@ -190,7 +190,7 @@ def visualize(input, faces, fps, thickness=2, value=None, scores=None):
             color = (200, 200, 200)
 
             # Nếu có đủ thông tin và confidence cao thì cập nhật label + màu
-            if value and scores and idx < len(value) and scores[idx] > 0.6:
+            if value and scores and idx < len(value):
                 label = mydict[value[idx]]
                 color = colors[value[idx]]
 

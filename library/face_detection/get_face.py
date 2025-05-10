@@ -82,7 +82,7 @@ def get_face_recognition_model():
         if key == ord('s') or key == ord('S'):
             if faces[1] is not None:
                 face_align = recognizer.alignCrop(frame, faces[1][0])
-                file_name = './images/face_detection/Tien/Tien%04d.bmp' % dem
+                file_name = './images/face_detection/02_Thuan/02_Thuan_%04d.bmp' % dem
                 cv.imwrite(file_name, face_align)
                 dem = dem + 1
         # Draw results on the input image

@@ -102,7 +102,7 @@ def training_model():
     svc.fit(X_train, y_train)
     acc_svc = accuracy_score(y_test, svc.predict(X_test))
     print('SVM accuracy: %.6f' % acc_svc)
-    joblib.dump(svc,'model/svc_face_detection.pkl')
+    joblib.dump(svc,'model/svc_face_detection_2.pkl')
 
 
 if __name__ == "__main__":
