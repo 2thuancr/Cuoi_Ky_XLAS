@@ -1,7 +1,7 @@
 import streamlit as st
 from modules import (
     GioiThieu, Chuong3, Chuong4, Chuong9,
-    NhanDienKhuonMat, trai_cay,
+    ThuThapKhuonMat, NhanDienKhuonMat, trai_cay,
     nhan_dien_ban_tay, nhan_dien_chu_ki_hieu,
     lane_detect
 )
@@ -27,6 +27,9 @@ with st.sidebar:
     if st.button("CHƯƠNG 9"):
         st.query_params.clear()
         st.query_params.update({"menu": "Chuong9"})
+    if st.button("THU THẬP KHUÔN MẶT"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "ThuThapKhuonMat"})
     if st.button("NHẬN DIỆN KHUÔN MẶT"):
         st.query_params.clear()
         st.query_params.update({"menu": "NhanDienKhuonMat"})
@@ -50,6 +53,7 @@ pages = {
     "Chuong3": Chuong3.show,
     "Chuong4": Chuong4.show,
     "Chuong9": Chuong9.show,
+    "ThuThapKhuonMat": ThuThapKhuonMat.show,
     "NhanDienKhuonMat": NhanDienKhuonMat.show,
     "TraiCay": trai_cay.show,
     "BanTay": nhan_dien_ban_tay.show,
@@ -120,6 +124,7 @@ div[data-testid="stImage"] {
 }
 
 /* Style cho select */
+div[data-testid="stTextInput"], 
 div[data-testid="stSelectbox"], 
 div[data-testid="stMultiSelect"],
 div[data-testid="stCheckbox"] {
