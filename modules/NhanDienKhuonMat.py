@@ -5,6 +5,7 @@ import time
 import argparse
 import joblib
 from library.face_detection.get_face import get_face_recognition_model
+from library.face_detection.training import training_model
 
 def show():
     
@@ -148,12 +149,9 @@ def show():
 
 def train_model():
     """Hàm huấn luyện mô hình, sẽ được gọi khi người dùng nhấn nút 'Huấn luyện'."""
-    # Logic huấn luyện mô hình của bạn ở đây
-    st.write("Đang huấn luyện mô hình...")
-    # Ví dụ, bạn có thể thêm logic huấn luyện mô hình ở đây
-    # Hoặc bạn có thể kết nối tới một mô hình học máy và huấn luyện lại mô hình đó
-    time.sleep(2)  # Mô phỏng thời gian huấn luyện
-    st.success("Huấn luyện xong!")
+    st.toast("Đang huấn luyện mô hình...")
+    training_model()  # Gọi hàm huấn luyện mô hình
+    st.toast("Huấn luyện xong!")
 
 
 def str2bool(v):
