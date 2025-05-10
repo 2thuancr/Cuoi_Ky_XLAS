@@ -4,37 +4,10 @@ import numpy as np
 import time
 import argparse
 import joblib
-from library.face_detection.get_face import get_face_recognition_model
-from library.face_detection.training import training_model
 
 def show():
     
     st.title("Nhận diện khuôn mặt")
-
-    # Thêm 2 button: Get Faces và Train, khi nhấn vào sẽ gọi hàm get_faces và train
-    col1, col2 = st.columns(2)
-    with col1:
-        btn_get_faces = st.button("Lấy khuôn mặt")
-    with col2:
-        btn_train = st.button("Huấn luyện")
-
-    # Cập nhật trạng thái khi nhấn nút Get Faces
-    if btn_get_faces:
-        st.session_state["get_faces"] = True
-        st.session_state["train"] = False
-        st.session_state["recognize"] = False
-        st.session_state["video_source"] = None
-        st.session_state["video_file"] = None
-        st.session_state["run"] = False
-
-    # Cập nhật trạng thái khi nhấn nút Train
-    if btn_train:
-        st.session_state["get_faces"] = False
-        st.session_state["train"] = True
-        st.session_state["recognize"] = False
-        st.session_state["video_source"] = None
-        st.session_state["video_file"] = None
-        st.session_state["run"] = False
 
     # Tạo checkbox để bật/tắt nhận diện khuôn mặt
     run = st.checkbox("Nhận diện khuôn mặt", value=st.session_state.get("run", False))
@@ -52,14 +25,6 @@ def show():
 
     # Hiển thị khung hình video
     FRAME_WINDOW = st.image([])
-
-    # Nếu đã nhấn nút Get Faces, cập nhật trạng thái
-    if st.session_state.get("get_faces", False):
-        get_face_recognition_model()  # Gọi hàm nhận diện khuôn mặt
-
-    # Kiểm tra xem người dùng có nhấn nút "Huấn luyện"
-    if st.session_state.get("train", False):
-        train_model()  # Gọi hàm huấn luyện mô hình khi "train" = True
 
     # Biến cap sẽ là nguồn video được mở
     cap = None
@@ -145,13 +110,6 @@ def show():
     if cap:
         cap.release()
 
-
-
-def train_model():
-    """Hàm huấn luyện mô hình, sẽ được gọi khi người dùng nhấn nút 'Huấn luyện'."""
-    st.toast("Đang huấn luyện mô hình...")
-    training_model()  # Gọi hàm huấn luyện mô hình
-    st.toast("Huấn luyện xong!")
 
 
 def str2bool(v):
