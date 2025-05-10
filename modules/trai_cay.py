@@ -1,12 +1,15 @@
 import io
 from typing import Any
+import numpy as np
 import cv2
+from PIL import Image
 
 from ultralytics import YOLO
 from ultralytics.utils import LOGGER
 from ultralytics.utils.checks import check_requirements
 from ultralytics.utils.downloads import GITHUB_ASSETS_STEMS
 import streamlit as st
+
 
 class Inference:
 
@@ -42,9 +45,9 @@ class Inference:
         # Tạo 2 cột: Source, Model
         col1, col2 = self.st.columns(2)
 
-        # Chọn nguồn video
+        # Chọn nguồn: thêm tùy chọn image
         with col1:
-            self.source = self.st.selectbox("🎥 Nguồn", ("webcam", "video"))
+            self.source = self.st.selectbox("🎥 Nguồn", ("webcam", "video", "image"))
 
         # Chọn mô hình
         with col2:
@@ -69,7 +72,7 @@ class Inference:
         if not selected_classes:
             self.st.toast("⚠️ Bạn chưa chọn lớp nào!")
 
-        # Upload video nếu là file
+        # Upload file nếu là video
         self.vid_file_name = ""
         if self.source == "video":
             vid_file = self.st.file_uploader("📁 Tải video lên", type=["mp4", "mov", "avi", "mkv"])
@@ -83,13 +86,34 @@ class Inference:
         elif self.source == "webcam":
             self.vid_file_name = 0
 
-        # Khung hiển thị video
-        display_col1, display_col2 = self.st.columns(2)
-        self.org_frame = display_col1.empty()
-        self.ann_frame = display_col2.empty()
+        # Ảnh: xử lý ngay ở đây
+        elif self.source == "image":
+            img_file = self.st.file_uploader("🖼️ Tải ảnh lên", type=["jpg", "jpeg", "png", "bmp"])
+            if img_file is not None:
+                file_bytes = np.asarray(bytearray(img_file.read()), dtype=np.uint8)
+                image = cv2.imdecode(file_bytes, 1)  # Đọc ảnh
 
+                results = self.model(image, conf=self.conf, iou=self.iou, classes=self.selected_ind)
+                annotated_img = results[0].plot()
+
+                col1, col2 = self.st.columns(2)
+                with col1:
+                    self.st.image(image, caption="Ảnh gốc", channels="BGR", width=350)
+                with col2:
+                    self.st.image(annotated_img, caption="Kết quả nhận diện", channels="BGR", width=350)
+
+
+
+        # Hiển thị khung video nếu là webcam hoặc video
+        if self.source in ("webcam", "video"):
+            display_col1, display_col2 = self.st.columns(2)
+            self.org_frame = display_col1.empty()
+            self.ann_frame = display_col2.empty()
 
     def run_inference(self):
+        if self.source not in ("webcam", "video"):
+            return  # Không chạy nếu là ảnh
+
         cap = cv2.VideoCapture(self.vid_file_name)
         if not cap.isOpened():
             self.st.toast("Không thể mở webcam hoặc nguồn video.")
@@ -119,11 +143,10 @@ def show():
 
     # Giao diện và cấu hình
     inf.web_ui()
-
     inf.configure()
 
-    # Chờ người dùng nhấn Start
-    if inf.st.button("Start"):
+    # Chỉ chạy nếu là webcam hoặc video
+    if inf.source in ("webcam", "video") and inf.st.button("Start"):
         inf.run_inference()
 
 
