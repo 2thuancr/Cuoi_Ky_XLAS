@@ -4,25 +4,65 @@ import numpy as np
 import time
 import argparse
 import joblib
+from library.face_detection.get_face import get_face_recognition_model
 
 def show():
-    st.markdown("<div style='text-align: center; font-size: 24px; font-weight: 600;'>NHẬN DIỆN KHUÔN MẶT</div>", unsafe_allow_html=True)
-    run = st.checkbox('Bắt đầu')
+    
+    st.title("Nhận diện khuôn mặt")
 
+    # Thêm 2 button: Get Faces và Train, khi nhấn vào sẽ gọi hàm get_faces và train
+    col1, col2 = st.columns(2)
+    with col1:
+        btn_get_faces = st.button("Lấy khuôn mặt")
+    with col2:
+        btn_train = st.button("Huấn luyện")
+
+    # Cập nhật trạng thái khi nhấn nút Get Faces
+    if btn_get_faces:
+        st.session_state["get_faces"] = True
+        st.session_state["train"] = False
+        st.session_state["recognize"] = False
+        st.session_state["video_source"] = None
+        st.session_state["video_file"] = None
+        st.session_state["run"] = False
+
+    # Cập nhật trạng thái khi nhấn nút Train
+    if btn_train:
+        st.session_state["get_faces"] = False
+        st.session_state["train"] = True
+        st.session_state["recognize"] = False
+        st.session_state["video_source"] = None
+        st.session_state["video_file"] = None
+        st.session_state["run"] = False
+
+    # Tạo checkbox để bật/tắt nhận diện khuôn mặt
+    run = st.checkbox("Nhận diện khuôn mặt", value=st.session_state.get("run", False))
+
+    # Lựa chọn nguồn video (webcam hoặc video file)
     video_source = st.selectbox(
         "Video",
         ("webcam", "video"),
     )
 
+    # Nếu video là file, cho phép upload
     video_file = None
     if video_source == "video":
         video_file = st.file_uploader("Chọn video", type=["mp4", "avi", "mov"])
 
+    # Hiển thị khung hình video
     FRAME_WINDOW = st.image([])
 
+    # Nếu đã nhấn nút Get Faces, cập nhật trạng thái
+    if st.session_state.get("get_faces", False):
+        get_face_recognition_model()  # Gọi hàm nhận diện khuôn mặt
+
+    # Kiểm tra xem người dùng có nhấn nút "Huấn luyện"
+    if st.session_state.get("train", False):
+        train_model()  # Gọi hàm huấn luyện mô hình khi "train" = True
+
+    # Biến cap sẽ là nguồn video được mở
     cap = None
-    if run:
-        #cap = cv2.VideoCapture(0)
+    if run:  # Nếu checkbox được bật
         if video_source == "webcam":
             cap = cv2.VideoCapture(0)
         elif video_source == "video" and video_file is not None:
@@ -33,6 +73,7 @@ def show():
             st.warning("Hãy chọn file video để tiếp tục.")
             st.stop()
 
+        # Khởi tạo các đối tượng detector và recognizer
         detector = cv2.FaceDetectorYN.create(
             args.face_detection_model,
             "",
@@ -46,6 +87,7 @@ def show():
 
         tm = cv2.TickMeter()
 
+        # Thiết lập các tham số video
         frameWidth = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         frameHeight = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         detector.setInputSize([frameWidth, frameHeight])
@@ -61,20 +103,22 @@ def show():
                 st.write("Không thể đọc camera")
                 break
         
+        # Đọc khung hình tiếp theo
         hasFrame, frame = cap.read()
         if not hasFrame:
             print('No frames grabbed!')
             break
 
-        # Inference
+        # Nhận diện khuôn mặt
         tm.start()
-        faces = detector.detect(frame) # faces is a tuple
+        faces = detector.detect(frame)  # faces is a tuple
         tm.stop()
 
         value = []
         scores = []
         if faces[1] is not None:
             for x in range(len(faces[1])):
+
                 face_align = recognizer.alignCrop(frame, faces[1][x])
                 face_feature = recognizer.feature(face_align)
                 test_predict = svc.predict(face_feature)
@@ -84,16 +128,14 @@ def show():
 
                 score = svc.decision_function(face_feature)
                 best_idx = np.argmax(score)
-                # Check if the prediction index is within the range of mydict
                 if 0 <= test_predict[0] < len(mydict):
                     confidence = float(score) if np.isscalar(score) else score[best_idx]
                     scores.append(confidence)
 
-                cv2.putText(frame,result,(1,50 + 20*x),cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[test_predict[0]], 2)
-        
-        # Draw results on the input image
-        visualize(frame, faces, tm.getFPS(), value=value, scores=scores)
+                cv2.putText(frame, result, (1, 50 + 20 * x), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[test_predict[0]], 2)
 
+        # Hiển thị kết quả
+        visualize(frame, faces, tm.getFPS(), value=value, scores=scores)
 
         # Chuyển BGR → RGB (Streamlit cần ảnh RGB)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -101,6 +143,17 @@ def show():
         time.sleep(0.03)  # Giới hạn tốc độ khung hình
     if cap:
         cap.release()
+
+
+
+def train_model():
+    """Hàm huấn luyện mô hình, sẽ được gọi khi người dùng nhấn nút 'Huấn luyện'."""
+    # Logic huấn luyện mô hình của bạn ở đây
+    st.write("Đang huấn luyện mô hình...")
+    # Ví dụ, bạn có thể thêm logic huấn luyện mô hình ở đây
+    # Hoặc bạn có thể kết nối tới một mô hình học máy và huấn luyện lại mô hình đó
+    time.sleep(2)  # Mô phỏng thời gian huấn luyện
+    st.success("Huấn luyện xong!")
 
 
 def str2bool(v):
