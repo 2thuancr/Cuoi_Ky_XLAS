@@ -95,7 +95,15 @@ def show():
                 score = svc.decision_function(face_feature)
                 best_idx = np.argmax(score)
                 if 0 <= test_predict[0] < len(mydict):
-                    confidence = float(score) if np.isscalar(score) else score[best_idx]
+                    # confidence = float(score) if np.isscalar(score) else score[best_idx]
+                    if np.isscalar(score):
+                        confidence = float(score)
+                    elif best_idx < len(score):
+                        confidence = score[best_idx]
+                    else:
+                        st.error(f"Chỉ số best_idx={best_idx} vượt quá kích thước của score (len={len(score)}).")
+                        confidence = None  # hoặc gán giá trị mặc định khác nếu cần
+
                     scores.append(confidence)
 
                 cv2.putText(frame, result, (1, 50 + 20 * x), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[test_predict[0]], 2)
