@@ -91,16 +91,16 @@ def show():
                 <h3>Nhận diện khuôn mặt</h3>
             </div>
             <div class="function-item">
+                <h3>Nhận diện cảm xúc</h3>
+            </div>
+            <div class="function-item">
                 <h3>Nhận diện trái cây</h3>
             </div>
             <div class="function-item">
-                <h3>Nhận diện bàn tay</h3>
+                <h3>Nhận diện bàn tay </h3>
             </div>
             <div class="function-item">
                 <h3>Nhận diện ngôn ngữ kí hiệu</h3>
-            </div>
-            <div class="function-item">
-                <h3>Lane detection</h3>
             </div>
         </div>
         """, unsafe_allow_html=True)
