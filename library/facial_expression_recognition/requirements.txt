@@ -1,0 +1,16 @@
+numpy
+opencv-python
+opencv-contrib-python
+
+# YOLOv8 và các tiện ích AI từ Ultralytics
+ultralytics==8.3.130
+
+# Giao diện Web/App (nếu dùng)
+streamlit
+
+# Nhận diện bàn tay, khuôn mặt, pose, v.v.
+mediapipe==0.10.21
+
+# Các thư viện hỗ trợ khác
+scikit-learn
+joblib

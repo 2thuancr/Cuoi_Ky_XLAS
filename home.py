@@ -1,9 +1,11 @@
 import streamlit as st
 from modules import (
-    GioiThieu, Chuong3, Chuong4, Chuong9,
-    ThuThapKhuonMat, NhanDienKhuonMat, trai_cay,
+    GioiThieu, 
+    Chuong3, Chuong4, Chuong9,
+    ThuThapKhuonMat, NhanDienKhuonMat, 
+    nhan_dien_cam_xuc,
+    trai_cay,
     nhan_dien_ban_tay, nhan_dien_chu_ki_hieu,
-    lane_detect
 )
 
 # Cấu hình trang
@@ -15,36 +17,36 @@ with st.sidebar:
     st.image(logo, width=128)
 
     st.markdown("### 22110006")
-    if st.button("GIỚI THIỆU"):
+    if st.button("⭐ GIỚI THIỆU"):
         st.query_params.clear()
         st.query_params.update({"menu": "GioiThieu"})
-    if st.button("CHƯƠNG 3"):
+    if st.button("3️⃣ CHƯƠNG 3"):
         st.query_params.clear()
         st.query_params.update({"menu": "Chuong3"})
-    if st.button("CHƯƠNG 4"):
+    if st.button("4️⃣ CHƯƠNG 4"):
         st.query_params.clear()
         st.query_params.update({"menu": "Chuong4"})
-    if st.button("CHƯƠNG 9"):
+    if st.button("9️⃣ CHƯƠNG 9"):
         st.query_params.clear()
         st.query_params.update({"menu": "Chuong9"})
-    if st.button("THU THẬP KHUÔN MẶT"):
+    if st.button("📸 THU THẬP KHUÔN MẶT"):
         st.query_params.clear()
         st.query_params.update({"menu": "ThuThapKhuonMat"})
-    if st.button("NHẬN DIỆN KHUÔN MẶT"):
+    if st.button("👥 NHẬN DIỆN KHUÔN MẶT"):
         st.query_params.clear()
         st.query_params.update({"menu": "NhanDienKhuonMat"})
-    if st.button("NHẬN DIỆN TRÁI CÂY"):
+    if st.button("😁 NHẬN DIỆN CẢM XÚC"):
+        st.query_params.clear()
+        st.query_params.update({"menu": "NhanDienCamXuc"})
+    if st.button("🍎 NHẬN DIỆN TRÁI CÂY"):
         st.query_params.clear()
         st.query_params.update({"menu": "TraiCay"})
-    if st.button("NHẬN DIỆN BÀN TAY"):
+    if st.button("👋 NHẬN DIỆN BÀN TAY"):
         st.query_params.clear()
         st.query_params.update({"menu": "BanTay"})
-    if st.button("NHẬN DIỆN NGÔN NGỮ KÝ HIỆU"):
+    if st.button("🤏 NHẬN DIỆN NGÔN NGỮ KÝ HIỆU"):
         st.query_params.clear()
         st.query_params.update({"menu": "GhepCauKiHieu"})
-    if st.button("LANE DETECTION"):
-        st.query_params.clear()
-        st.query_params.update({"menu": "LaneDetection"})
 
 # --- Routing ---
 
@@ -55,10 +57,10 @@ pages = {
     "Chuong9": Chuong9.show,
     "ThuThapKhuonMat": ThuThapKhuonMat.show,
     "NhanDienKhuonMat": NhanDienKhuonMat.show,
+    "NhanDienCamXuc": nhan_dien_cam_xuc.show,
     "TraiCay": trai_cay.show,
     "BanTay": nhan_dien_ban_tay.show,
     "GhepCauKiHieu": nhan_dien_chu_ki_hieu.show,
-    "LaneDetection": lane_detect.show
 }
 
 # Lấy route từ URL
