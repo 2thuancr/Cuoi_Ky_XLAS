@@ -10,3 +10,4 @@ mediapipe==0.10.21
 # Các thư viện hỗ trợ khác
 scikit-learn
 joblib
+onnxruntime
