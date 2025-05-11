@@ -75,8 +75,6 @@ def training_model():
 
     recognizer = cv2.FaceRecognizerSF.create("model/face_recognition_sface_2021dec.onnx", "")
 
-
-
     for i, m in enumerate(metadata):
         print(m.image_path())
         img = cv2.imread(m.image_path(), cv2.IMREAD_COLOR)
@@ -105,6 +103,7 @@ def training_model():
     model_path = 'model/svc_face_detection.pkl'
     if os.path.exists(model_path):
         os.remove(model_path)
+        print(f"File {model_path} removed")
     joblib.dump(svc, model_path)
 
 
