@@ -3,7 +3,6 @@ from modules import (
     GioiThieu, Chuong3, Chuong4, Chuong9,
     ThuThapKhuonMat, NhanDienKhuonMat, trai_cay,
     nhan_dien_ban_tay, nhan_dien_chu_ki_hieu,
-    lane_detect
 )
 
 # Cấu hình trang
@@ -42,9 +41,6 @@ with st.sidebar:
     if st.button("NHẬN DIỆN NGÔN NGỮ KÝ HIỆU"):
         st.query_params.clear()
         st.query_params.update({"menu": "GhepCauKiHieu"})
-    if st.button("LANE DETECTION"):
-        st.query_params.clear()
-        st.query_params.update({"menu": "LaneDetection"})
 
 # --- Routing ---
 
@@ -58,7 +54,6 @@ pages = {
     "TraiCay": trai_cay.show,
     "BanTay": nhan_dien_ban_tay.show,
     "GhepCauKiHieu": nhan_dien_chu_ki_hieu.show,
-    "LaneDetection": lane_detect.show
 }
 
 # Lấy route từ URL
