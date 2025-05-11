@@ -138,7 +138,7 @@ class Inference:
 def show():
     import sys
     args = len(sys.argv)
-    model = "./model/best.pt"
+    model = "./model/last.pt"
     inf = Inference(model=model)
 
     # Giao diện và cấu hình
