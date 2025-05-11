@@ -142,7 +142,7 @@ parser.add_argument('--save', '-s', type=str2bool, default=False, help='Set true
 args = parser.parse_args()
 
 svc = joblib.load('./model/svc_face_detection.pkl')
-mydict = ['Dat' ,'Nam' ,'Thuan', 'Tien']
+mydict = ['Bao', 'Dat', 'Nam','Thuan','Tien']
 colors = [(0, 0, 255), (255, 0, 0), (0, 255, 0), (0, 255, 255), (255, 0, 255)]
 
 def visualize(input, faces, fps, thickness=2, value=None, scores=None):
