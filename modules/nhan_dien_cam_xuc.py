@@ -7,8 +7,8 @@ import torchvision.transforms as transforms
 
 
 # Nhãn cảm xúc (phải đúng thứ tự)
-# class_names = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
-class_names = ['Happy', 'Sleepy', 'Surprise']
+class_names = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'sleepy', 'surprise']
+# class_names = ['Happy', 'Sleepy', 'Surprise']
 
 # Load ONNX model
 session = ort.InferenceSession("./model/emotion_cnn.onnx", providers=['CPUExecutionProvider'])
